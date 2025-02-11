@@ -50,8 +50,8 @@
 </head>
 <body>
     
-    <!-- Background Music (Initially muted to bypass autoplay restrictions) -->
-    <audio id="bg-music" loop muted>
+    <!-- Background Music -->
+    <audio id="bg-music" loop playsinline>
         <source src="song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -75,9 +75,16 @@
         function openLetter() {
             document.getElementById('letter').style.display = 'block';
             var music = document.getElementById('bg-music');
-            music.muted = false; // Unmute the audio
-            music.play(); // Play the song when the letter opens
+            music.play().catch(error => console.log("Autoplay blocked: ", error)); // Handle autoplay block
         }
+
+        // Attempt to autoplay on any user interaction
+        document.addEventListener("click", function () {
+            var music = document.getElementById("bg-music");
+            if (music.paused) {
+                music.play();
+            }
+        });
     </script>
 </body>
 </html>
